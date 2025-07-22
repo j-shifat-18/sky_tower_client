@@ -7,7 +7,7 @@
   name: "light";
   default: true;
 
-  --color-primary: #1E3A8A;         /* Deep Blue */
+  --color-primary: #2563EB ;        /* Deep Blue */
   --color-primary-content: #ffffff;
 
   --color-secondary: #38BDF8;       /* Sky Blue */

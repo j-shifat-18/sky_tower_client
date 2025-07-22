@@ -1,11 +1,14 @@
-import React from 'react';
+import React from "react";
+import { Link } from "react-router";
 
 const SkyTowerLogo = () => {
-    return (
-        <div className="flex items-center gap-2 select-none">
-        <span className="font-bold text-2xl tracking-wide">Sky<span className='text-primary'>Tower</span></span>
-      </div>
-    );
+  return (
+    <Link to='/' className="flex items-center gap-2 select-none">
+      <span className="font-bold text-2xl tracking-wide">
+        Sky<span className="text-primary">Tower</span>
+      </span>
+    </Link>
+  );
 };
 
 export default SkyTowerLogo;

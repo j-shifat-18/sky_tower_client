@@ -1,7 +1,4 @@
-
-import {
-  createBrowserRouter,
-} from "react-router";
+import { createBrowserRouter } from "react-router";
 import RootLayout from "../Layouts/RootLayout/RootLayout";
 import Home from "../Pages/Home/Home/Home";
 import Apartments from "../Pages/Apartments/Apartments";
@@ -15,32 +12,41 @@ export const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout></RootLayout>,
-    children:[
-        {
-            index:true,
-            element:<Home></Home>,
-        },
-        {
-            path:'apartments',
-            element:<Apartments></Apartments>
-        }
-    ]
+    children: [
+      {
+        index: true,
+        element: <Home></Home>,
+      },
+      {
+        path: "apartments",
+        element: <Apartments></Apartments>,
+      },
+    ],
   },
   {
-    path:'/login',
-    element:<Login></Login>,
+    path: "/login",
+    element: <Login></Login>,
   },
   {
-    path:'/register',
-    element:<Register></Register>
+    path: "/register",
+    element: <Register></Register>,
   },
   {
     path: "/dashboard",
     element: <DashboardLayout />,
     children: [
-      { path: "my-profile", element: <MyProfile /> },
-      { path: "announcements", element: <Announcements /> },
-      
+      // {
+      //   index:true,
+      //   element:
+      // },
+      {
+        path: "my-profile",
+        element: <MyProfile />,
+      },
+      {
+        path: "announcements",
+        element: <Announcements />,
+      },
     ],
   },
 ]);

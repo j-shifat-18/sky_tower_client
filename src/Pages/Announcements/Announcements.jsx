@@ -2,6 +2,7 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { motion } from "framer-motion";
+import Loader from "../../Components/Loader/Loader";
 
 const Announcements = () => {
   const axiosPublic = useAxiosPublic();
@@ -15,7 +16,7 @@ const Announcements = () => {
   });
 
   if (isLoading) {
-    return <span className="loading loading-spinner text-primary mx-auto mt-10 block" />;
+    return <Loader></Loader>;
   }
 
   return (

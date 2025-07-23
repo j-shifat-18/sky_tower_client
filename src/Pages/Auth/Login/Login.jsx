@@ -19,7 +19,7 @@ const Login = () => {
         showConfirmButton: false,
         timer: 1500
       });
-      navigate('/');
+      navigate(`${location.state ? location.state : "/"}`);
     } catch (error) {
       Swal.fire({
         icon: 'error',

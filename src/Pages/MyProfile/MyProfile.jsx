@@ -1,8 +1,23 @@
 import React from "react";
 import useAuth from "../../Hooks/useAuth";
+// import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 const MyProfile = () => {
   const { user } = useAuth();
+
+  // const axiosPublic = useAxiosPublic();
+
+  // const { data: member = [], isLoading } = useQuery({
+  //   queryKey: ["announcements"],
+  //   queryFn: async () => {
+  //     const res = await axiosPublic.get("/announcements");
+  //     return res.data;
+  //   },
+  // });
+
+  // if (isLoading) {
+  //   return <Loader></Loader>;
+  // }
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-base-300 rounded-xl shadow-md">

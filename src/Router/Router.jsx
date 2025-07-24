@@ -12,6 +12,7 @@ import ManageMembers from "../Pages/ManageMembers/ManageMembers";
 import MakeAnnouncement from "../Pages/MakeAnnouncement/MakeAnnouncement";
 import AgreementRequests from "../Pages/AgreementRequests/AgreementRequests";
 import ManageCoupons from "../Pages/ManageCoupons/ManageCoupons";
+import AdminProtectedRoutes from "../Routes/AdminProtectedRoutes";
 
 export const router = createBrowserRouter([
   {
@@ -52,11 +53,46 @@ export const router = createBrowserRouter([
         path: "announcements",
         element: <Announcements />,
       },
-      { path: "admin-profile", element: <AdminProfile /> },
-      { path: "manage-members", element: <ManageMembers /> },
-      { path: "make-announcement", element: <MakeAnnouncement /> },
-      { path: "agreement-requests", element: <AgreementRequests /> },
-      { path: "manage-coupons", element: <ManageCoupons /> },
+      {
+        path: "admin-profile",
+        element: (
+          <AdminProtectedRoutes>
+            <AdminProfile />{" "}
+          </AdminProtectedRoutes>
+        ),
+      },
+      {
+        path: "manage-members",
+        element: (
+          <AdminProtectedRoutes>
+            <ManageMembers />
+          </AdminProtectedRoutes>
+        ),
+      },
+      {
+        path: "make-announcement",
+        element: (
+          <AdminProtectedRoutes>
+            <MakeAnnouncement />
+          </AdminProtectedRoutes>
+        ),
+      },
+      {
+        path: "agreement-requests",
+        element: (
+          <AdminProtectedRoutes>
+            <AgreementRequests />
+          </AdminProtectedRoutes>
+        ),
+      },
+      {
+        path: "manage-coupons",
+        element: (
+          <AdminProtectedRoutes>
+            <ManageCoupons />
+          </AdminProtectedRoutes>
+        ),
+      },
     ],
   },
 ]);

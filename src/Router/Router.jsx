@@ -7,6 +7,11 @@ import Register from "../Pages/Auth/Register/Register";
 import DashboardLayout from "../Layouts/DashboardLayout/DashboardLayout";
 import MyProfile from "../Pages/MyProfile/MyProfile";
 import Announcements from "../Pages/Announcements/Announcements";
+import AdminProfile from "../Pages/AdminProfile/AdminProfile";
+import ManageMembers from "../Pages/ManageMembers/ManageMembers";
+import MakeAnnouncement from "../Pages/MakeAnnouncement/MakeAnnouncement";
+import AgreementRequests from "../Pages/AgreementRequests/AgreementRequests";
+import ManageCoupons from "../Pages/ManageCoupons/ManageCoupons";
 
 export const router = createBrowserRouter([
   {
@@ -47,6 +52,11 @@ export const router = createBrowserRouter([
         path: "announcements",
         element: <Announcements />,
       },
+      { path: "admin-profile", element: <AdminProfile /> },
+      { path: "manage-members", element: <ManageMembers /> },
+      { path: "make-announcement", element: <MakeAnnouncement /> },
+      { path: "agreement-requests", element: <AgreementRequests /> },
+      { path: "manage-coupons", element: <ManageCoupons /> },
     ],
   },
 ]);

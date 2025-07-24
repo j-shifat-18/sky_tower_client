@@ -2,8 +2,28 @@ import { FaBars } from "react-icons/fa";
 import { Link, Outlet } from "react-router";
 import { UserCircle, Megaphone } from "lucide-react";
 import SkyTowerLogo from "../../Components/SkyTowerLogo/SkyTowerLogo";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import Loader from "../../Components/Loader/Loader";
+import useAuth from "../../Hooks/useAuth";
+import { UserCog, Users, FileSignature, BadgePercent } from "lucide-react";
 
 const DashboardLayout = () => {
+  const { user } = useAuth();
+  const axiosPublic = useAxiosPublic();
+
+  const { data: userRole, isLoading } = useQuery({
+    queryKey: ["users", user?.email],
+    queryFn: async () => {
+      const res = await axiosPublic.get(`/users?email=${user.email}`);
+      return res.data;
+    },
+  });
+
+  if (isLoading) return <Loader></Loader>;
+
+  console.log(userRole);
+
   return (
     <div className="drawer lg:drawer-open">
       {/* Drawer Toggle Button (Visible on small/medium) */}
@@ -32,15 +52,77 @@ const DashboardLayout = () => {
             <SkyTowerLogo></SkyTowerLogo>
           </div>
           {/* Example Navigation Links */}
-          <li>
-            <Link
-              to="/dashboard/my-profile"
-              className="flex items-center gap-2"
-            >
-              <UserCircle className="w-5 h-5" />
-              My Profile
-            </Link>
-          </li>
+
+          {/* user navigation */}
+          {userRole?.role === "user" ||
+            (user?.role === "member" && (
+              <>
+                <li>
+                  <Link
+                    to="/dashboard/my-profile"
+                    className="flex items-center gap-2"
+                  >
+                    <UserCircle className="w-5 h-5" />
+                    My Profile
+                  </Link>
+                </li>
+              </>
+            ))}
+
+          {/* Member navigation */}
+
+          {/* Admin navigation */}
+          {userRole?.role === "admin" && (
+            <>
+              <li>
+                <Link
+                  to="/dashboard/admin-profile"
+                  className="flex items-center gap-2"
+                >
+                  <UserCog className="w-5 h-5" />
+                  Admin Profile
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/dashboard/manage-members"
+                  className="flex items-center gap-2"
+                >
+                  <Users className="w-5 h-5" />
+                  Manage Members
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/dashboard/make-announcement"
+                  className="flex items-center gap-2"
+                >
+                  <Megaphone className="w-5 h-5" />
+                  Make Announcements
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/dashboard/agreement-requests"
+                  className="flex items-center gap-2"
+                >
+                  <FileSignature className="w-5 h-5" />
+                  Agreement Requests
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/dashboard/manage-coupons"
+                  className="flex items-center gap-2"
+                >
+                  <BadgePercent className="w-5 h-5" />
+                  Manage Coupons
+                </Link>
+              </li>
+            </>
+          )}
+
+          {/* Announcements */}
           <li>
             <Link
               to="/dashboard/announcements"
@@ -50,8 +132,6 @@ const DashboardLayout = () => {
               Announcements
             </Link>
           </li>
-
-          {/* Add conditionally rendered links for Member/Admin later */}
         </ul>
       </div>
     </div>

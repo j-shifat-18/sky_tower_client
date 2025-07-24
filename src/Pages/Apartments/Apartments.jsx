@@ -7,6 +7,7 @@ import ApartmentCard from "../../Components/ApartmentCard/ApartmentCard";
 import Pagination from "../../Components/Pagination/Pagination";
 import SearchFilter from "../../Components/SearchFilter/SearchFilter";
 import Loader from "../../Components/Loader/Loader";
+import Swal from "sweetalert2";
 
 const Apartments = () => {
   const axiosPublic = useAxiosPublic();
@@ -23,8 +24,20 @@ const Apartments = () => {
     queryKey: ["apartments", currentPage, minRent, maxRent],
     queryFn: async () => {
       const res = await axiosPublic.get(
-        `/apartments?page=${currentPage}&minRent=${minRent || 0}&maxRent=${maxRent || 999999}`
+        `/apartments?page=${currentPage}&minRent=${minRent || 0}&maxRent=${
+          maxRent || 999999
+        }`
       );
+      return res.data;
+    },
+  });
+
+  // fetch agreement data
+  const { data: userAgreement } = useQuery({
+    queryKey: ["userAgreement", user?.email],
+    enabled: !!user?.email,
+    queryFn: async () => {
+      const res = await axiosPublic.get(`/agreements?email=${user.email}`);
       return res.data;
     },
   });
@@ -36,6 +49,12 @@ const Apartments = () => {
       return res.data;
     },
     onSuccess: () => {
+      Swal.fire({
+        icon: "success",
+        title: "Agreement booked!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
       queryClient.invalidateQueries(["apartments"]);
     },
   });
@@ -80,6 +99,7 @@ const Apartments = () => {
             <ApartmentCard
               key={apt._id}
               apartment={apt}
+              isApplied={!!userAgreement}
               onAgreement={handleAgreement}
             />
           ))

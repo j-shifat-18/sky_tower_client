@@ -2,7 +2,7 @@
 import { motion } from "framer-motion";
 
 
-const ApartmentCard = ({ apartment, onAgreement }) => {
+const ApartmentCard = ({ apartment, onAgreement , isApplied }) => {
   const {
     _id,
     image,
@@ -30,12 +30,7 @@ const ApartmentCard = ({ apartment, onAgreement }) => {
         <p className="text-gray-600">Block: {block}</p>
         <p className="text-gray-600">Rent: {rent} BDT</p>
 
-        <button
-          onClick={() => onAgreement(apartment)}
-          className="w-full mt-3"
-        >
-          Apply for Agreement
-        </button>
+        <button onClick={()=>onAgreement(apartment)} disabled={isApplied} className="btn btn-outline btn-primary block w-full">Primary</button>
       </div>
     </motion.div>
   );

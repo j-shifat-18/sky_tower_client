@@ -15,6 +15,7 @@ import ManageCoupons from "../Pages/ManageCoupons/ManageCoupons";
 import AdminProtectedRoutes from "../Routes/AdminProtectedRoutes";
 import MakePayment from "../Pages/MakePayment/MakePayment";
 import PaymentHistory from "../Pages/PaymentHistory/PaymentHistory";
+import PaymentPage from "../Pages/PaymentPage/PaymentPage";
 
 export const router = createBrowserRouter([
   {
@@ -55,6 +56,10 @@ export const router = createBrowserRouter([
       {
         path: "payment-history",
         element: <PaymentHistory />,
+      },
+      {
+        path:"payment-checkout",
+        element:<PaymentPage></PaymentPage>
       },
       // Common Route
       {

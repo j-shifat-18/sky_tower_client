@@ -38,9 +38,11 @@ const Apartments = () => {
     enabled: !!user?.email,
     queryFn: async () => {
       const res = await axiosPublic.get(`/agreements?email=${user.email}`);
+      console.log(res.data)
       return res.data;
     },
   });
+  console.log(userAgreement)
 
   // Handle agreement creation
   const agreementMutation = useMutation({
@@ -99,7 +101,7 @@ const Apartments = () => {
             <ApartmentCard
               key={apt._id}
               apartment={apt}
-              isApplied={!!userAgreement}
+              isApplied={userAgreement?.length >0 ? true : false}
               onAgreement={handleAgreement}
             />
           ))

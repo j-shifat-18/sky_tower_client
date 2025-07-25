@@ -5,19 +5,19 @@ import useAuth from '../../../Hooks/useAuth';
 import Swal from 'sweetalert2';
 import GoogleLogin from '../../../Components/GoogleLogin/GoogleLogin';
 import { useMutation } from '@tanstack/react-query';
-import useAxiosPublic from '../../../Hooks/useAxiosPublic';
+import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 
 const Register = () => {
   const { createUser, updateUserProfile } = useAuth();
   const navigate = useNavigate();
-  const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
   const [uploading, setUploading] = useState(false);
 
   // Mutation for sending user data to /users
   const addUserMutation = useMutation({
     mutationFn: async (userData) => {
-      const res = await axiosPublic.post('/users', userData);
+      const res = await axiosSecure.post('/users', userData);
       return res.data;
     }
   });
@@ -64,6 +64,7 @@ const Register = () => {
       });
       // Send user data to /users
       await addUserMutation.mutateAsync({
+        name:data.name,
         email: data.email,
         role: 'user',
         created_at: new Date().toISOString(),

@@ -2,25 +2,27 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import Swal from "sweetalert2";
 import { Trash2 } from "lucide-react";
-import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 export default function ManageMembers() {
-  const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();
 
   // Get members only
   const { data: members = [], isLoading } = useQuery({
     queryKey: ["members"],
     queryFn: async () => {
-      const res = await axiosPublic.get("/users");
+      const res = await axiosSecure.get("/users");
       return res.data.filter((user) => user.role === "member");
     },
   });
 
+  console.log(members)
+
   // Mutation to downgrade role
   const { mutateAsync: removeMember } = useMutation({
     mutationFn: async (email) => {
-      const res = await axiosPublic.patch(`/users?email=${email}`, {
+      const res = await axiosSecure.patch(`/users?email=${email}`, {
         role: "user",
       });
       return res.data;

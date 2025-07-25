@@ -1,23 +1,23 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useEffect, useState } from "react";
-import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const CheckoutForm = ({ paymentData }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [clientSecret, setClientSecret] = useState("");
-  const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
 
   const price = paymentData.rent;
 
   useEffect(() => {
     if (paymentData?.rent) {
-      axiosPublic
+      axiosSecure
         .post("/create-payment-intent", { rent: price })
         .then((res) => setClientSecret(res.data.clientSecret));
     }
-  }, [price, paymentData, axiosPublic]);
+  }, [price, paymentData, axiosSecure]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -60,7 +60,7 @@ const CheckoutForm = ({ paymentData }) => {
       };
 
       try {
-        await axiosPublic.post("/payments", paymentRecord);
+        await axiosSecure.post("/payments", paymentRecord);
         Swal.fire({
                 icon: 'success',
                 title: 'Payment Successfull!',

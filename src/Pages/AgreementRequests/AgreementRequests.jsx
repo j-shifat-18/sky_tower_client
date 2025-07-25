@@ -1,22 +1,23 @@
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { Check, XCircle, User, Home } from "lucide-react";
-import useAxiosPublic from "../../Hooks/useAxiosPublic";
+
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const AgreementRequests = () => {
-  const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
 
   const { data: agreements = [], refetch, isLoading } = useQuery({
     queryKey: ["agreements"],
     queryFn: async () => {
-      const res = await axiosPublic.get("/agreements");
+      const res = await axiosSecure.get("/agreements");
       return res.data.filter((a) => a.status === "pending");
     },
   });
 
   const handleAccept = async (id, email) => {
-    await axiosPublic.patch(`/agreements/${id}/accept`, { email });
+    await axiosSecure.patch(`/agreements/${id}/accept`, { email });
     Swal.fire({
             icon: 'success',
             title: 'Agreement accepted!',
@@ -27,7 +28,7 @@ const AgreementRequests = () => {
   };
 
   const handleReject = async (id) => {
-    await axiosPublic.patch(`/agreements/${id}/reject`);
+    await axiosSecure.patch(`/agreements/${id}/reject`);
     Swal.fire({
             icon: 'success',
             title: 'Agreement rejected!',

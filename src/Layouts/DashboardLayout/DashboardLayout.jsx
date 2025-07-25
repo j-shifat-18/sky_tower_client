@@ -2,7 +2,6 @@ import { FaBars } from "react-icons/fa";
 import { NavLink, Outlet } from "react-router";
 import SkyTowerLogo from "../../Components/SkyTowerLogo/SkyTowerLogo";
 import { useQuery } from "@tanstack/react-query";
-import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import Loader from "../../Components/Loader/Loader";
 import useAuth from "../../Hooks/useAuth";
 import {
@@ -15,15 +14,16 @@ import {
   ReceiptText,
   UserCircle,
 } from "lucide-react";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const DashboardLayout = () => {
   const { user } = useAuth();
-  const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
 
   const { data: userRole, isLoading } = useQuery({
     queryKey: ["users", user?.email],
     queryFn: async () => {
-      const res = await axiosPublic.get(`/users?email=${user.email}`);
+      const res = await axiosSecure.get(`/users?email=${user.email}`);
       return res.data;
     },
   });

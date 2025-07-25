@@ -2,17 +2,17 @@ import React from 'react';
 import useAuth from '../../Hooks/useAuth';
 import Swal from 'sweetalert2';
 import { useMutation } from '@tanstack/react-query';
-import useAxiosPublic from '../../Hooks/useAxiosPublic';
+import useAxiosSecure from '../../Hooks/useAxiosSecure';
 
 
 const GoogleLogin = ({ onSuccess }) => {
   const { googleLogin } = useAuth();
-  const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
 
   // Mutation for sending user data to /users
   const addUserMutation = useMutation({
     mutationFn: async (userData) => {
-      const res = await axiosPublic.post('/users', userData);
+      const res = await axiosSecure.post('/users', userData);
       return res.data;
     }
   });
@@ -23,7 +23,7 @@ const GoogleLogin = ({ onSuccess }) => {
       // console.log(result)
       const user = result.user;
       // Check if user exists in DB
-      const res = await axiosPublic.get(`/users?email=${user.email}`);
+      const res = await axiosSecure.get(`/users?email=${user.email}`);
       console.log(res)
       if (!res.data || (Array.isArray(res.data) && res.data.length === 0)) {
         // User does not exist, add to DB

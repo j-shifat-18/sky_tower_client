@@ -3,15 +3,16 @@ import useAuth from "../Hooks/useAuth";
 import Loader from "../Components/Loader/Loader";
 import { Navigate } from "react-router";
 import { useQuery } from "@tanstack/react-query";
-import useAxiosPublic from "../Hooks/useAxiosPublic";
+import useAxiosSecure from "../Hooks/useAxiosSecure";
 
 const AdminProtectedRoutes = ({ children }) => {
   const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
 
   const { data: userRole, isLoading } = useQuery({
     queryKey: ["users", user?.email],
     queryFn: async () => {
-      const res = await useAxiosPublic.get(`/users?email=${user.email}`);
+      const res = await axiosSecure.get(`/users?email=${user.email}`);
       return res.data;
     },
   });

@@ -4,9 +4,11 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Swal from 'sweetalert2';
 import useAxiosPublic from '../../Hooks/useAxiosPublic';
+import useAxiosSecure from '../../Hooks/useAxiosSecure';
 
 const ManageCoupons = () => {
   const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();
   const { register, handleSubmit, reset } = useForm();
   const [modalOpen, setModalOpen] = useState(false);
@@ -21,7 +23,7 @@ const ManageCoupons = () => {
 
   const { mutate } = useMutation({
     mutationFn: async (coupon) => {
-      const res = await axiosPublic.post('/coupons', coupon);
+      const res = await axiosSecure.post('/coupons', coupon);
       return res.data;
     },
     onSuccess: () => {

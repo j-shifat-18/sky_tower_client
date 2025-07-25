@@ -1,18 +1,19 @@
 import React from "react";
 import useAuth from "../../Hooks/useAuth";
-import useAxiosPublic from "../../Hooks/useAxiosPublic";
+
 import { useQuery } from "@tanstack/react-query";
 import Loader from "../../Components/Loader/Loader";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const MyProfile = () => {
   const { user } = useAuth();
 
-  const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
 
   const { data: member = [], isLoading } = useQuery({
     queryKey: ["agreements"],
     queryFn: async () => {
-      const res = await axiosPublic.get(
+      const res = await axiosSecure.get(
         `/member-agreements?email=${user.email}`
       );
       return res.data;

@@ -1,16 +1,16 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { motion } from "framer-motion";
 import Loader from "../../Components/Loader/Loader";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const Announcements = () => {
-  const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
 
   const { data: announcements = [], isLoading } = useQuery({
     queryKey: ["announcements"],
     queryFn: async () => {
-      const res = await axiosPublic.get("/announcements");
+      const res = await axiosSecure.get("/announcements");
       return res.data;
     },
   });

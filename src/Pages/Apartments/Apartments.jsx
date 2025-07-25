@@ -8,9 +8,11 @@ import Pagination from "../../Components/Pagination/Pagination";
 import SearchFilter from "../../Components/SearchFilter/SearchFilter";
 import Loader from "../../Components/Loader/Loader";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const Apartments = () => {
   const axiosPublic = useAxiosPublic();
+  const axiosSecure  = useAxiosSecure();
   const queryClient = useQueryClient();
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -37,7 +39,7 @@ const Apartments = () => {
     queryKey: ["userAgreement", user?.email],
     enabled: !!user?.email,
     queryFn: async () => {
-      const res = await axiosPublic.get(`/agreements?email=${user.email}`);
+      const res = await axiosSecure.get(`/agreements?email=${user.email}`);
       console.log(res.data)
       return res.data;
     },
@@ -47,7 +49,7 @@ const Apartments = () => {
   // Handle agreement creation
   const agreementMutation = useMutation({
     mutationFn: async (apartment) => {
-      const res = await axiosPublic.post("/agreements", apartment);
+      const res = await axiosSecure.post("/agreements", apartment);
       return res.data;
     },
     onSuccess: () => {

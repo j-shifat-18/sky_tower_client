@@ -3,15 +3,15 @@ import { useMutation } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import { motion } from "framer-motion";
 import { Megaphone, Info, Star } from "lucide-react";
-import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 export default function AnnouncementForm() {
   const { register, handleSubmit, reset } = useForm();
-  const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
 
   const mutation = useMutation({
     mutationFn: async (announcement) => {
-      const res = await axiosPublic.post("/announcements", announcement);
+      const res = await axiosSecure.post("/announcements", announcement);
       return res.data;
     },
     onSuccess: () => {

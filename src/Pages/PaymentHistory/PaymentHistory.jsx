@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
-import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import useAuth from "../../Hooks/useAuth";
 import Loader from "../../Components/Loader/Loader";
 import {
@@ -12,16 +11,17 @@ import {
   FaLayerGroup,
   FaHashtag,
 } from "react-icons/fa";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const PaymentHistory = () => {
-  const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   console.log(user.email);
 
   const { data: payments = [], isLoading } = useQuery({
     queryKey: ["payments", user?.email],
     queryFn: async () => {
-      const res = await axiosPublic.get(`/payments?email=${user.email}`);
+      const res = await axiosSecure.get(`/payments?email=${user.email}`);
       return res.data;
     },
     enabled: !!user?.email,

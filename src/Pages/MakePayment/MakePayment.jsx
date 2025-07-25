@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import useAuth from "../../Hooks/useAuth";
-import useAxiosPublic from "../../Hooks/useAxiosPublic";
+
 import { useNavigate } from "react-router";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const MakePayment = () => {
   const { user } = useAuth(); // email and name
-  const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
   const [agreement, setAgreement] = useState(null);
   const [coupon, setCoupon] = useState("");
   const [discountedRent, setDiscountedRent] = useState(null);
@@ -25,7 +26,7 @@ const MakePayment = () => {
 
   useEffect(() => {
     if (user?.email) {
-      axiosPublic
+      axiosSecure
         .get(`/member-agreements?email=${user.email}`)
         .then((res) => {
           setAgreement(res.data);
@@ -37,14 +38,14 @@ const MakePayment = () => {
         })
         .catch((err) => console.error(err));
     }
-  }, [user, setValue, axiosPublic]);
+  }, [user, setValue, axiosSecure]);
 
   const handleCouponApply = async () => {
     if (!coupon || !agreement?.rent) return;
 
     try {
       setIsValidatingCoupon(true);
-      const res = await axiosPublic.get(`/validate-coupon?code=${coupon}`);
+      const res = await axiosSecure.get(`/validate-coupon?code=${coupon}`);
       const { valid, discountPercentage, message } = res.data;
 
       if (valid && discountPercentage) {

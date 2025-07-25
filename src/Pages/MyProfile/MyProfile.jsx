@@ -1,23 +1,30 @@
 import React from "react";
 import useAuth from "../../Hooks/useAuth";
-// import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import { useQuery } from "@tanstack/react-query";
+import Loader from "../../Components/Loader/Loader";
 
 const MyProfile = () => {
   const { user } = useAuth();
 
-  // const axiosPublic = useAxiosPublic();
+  const axiosPublic = useAxiosPublic();
 
-  // const { data: member = [], isLoading } = useQuery({
-  //   queryKey: ["announcements"],
-  //   queryFn: async () => {
-  //     const res = await axiosPublic.get("/announcements");
-  //     return res.data;
-  //   },
-  // });
+  const { data: member = [], isLoading } = useQuery({
+    queryKey: ["agreements"],
+    queryFn: async () => {
+      const res = await axiosPublic.get(
+        `/member-agreements?email=${user.email}`
+      );
+      return res.data;
+    },
+  });
 
-  // if (isLoading) {
-  //   return <Loader></Loader>;
-  // }
+  if (isLoading) {
+    return <Loader></Loader>;
+  }
+
+  const createdAt = member.createdAt;
+  const agreementAcceptenceDate = new Date(createdAt).toLocaleDateString();
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-base-300 rounded-xl shadow-md">
@@ -38,19 +45,23 @@ const MyProfile = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="bg-base-100 p-4 rounded shadow">
           <p className="font-medium text-gray-500">Agreement Accept Date</p>
-          <p className="text-lg">None</p>
+          <p className="text-lg">{agreementAcceptenceDate || "None"}</p>
         </div>
         <div className="bg-base-100 p-4 rounded shadow">
           <p className="font-medium text-gray-500">Floor</p>
-          <p className="text-lg">None</p>
+          <p className="text-lg">{member?.floor || "None"}</p>
         </div>
         <div className="bg-base-100 p-4 rounded shadow">
           <p className="font-medium text-gray-500">Block</p>
-          <p className="text-lg">None</p>
+          <p className="text-lg">{member?.block || "None"}</p>
         </div>
         <div className="bg-base-100 p-4 rounded shadow">
           <p className="font-medium text-gray-500">Room No</p>
-          <p className="text-lg">None</p>
+          <p className="text-lg">{member?.apartmentNo || "None"}</p>
+        </div>
+        <div className="bg-base-100 p-4 rounded shadow">
+          <p className="font-medium text-gray-500">Rent</p>
+          <p className="text-lg">{member?.rent || "None"}</p>
         </div>
       </div>
     </div>

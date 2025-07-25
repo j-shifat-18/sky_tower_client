@@ -13,6 +13,8 @@ import MakeAnnouncement from "../Pages/MakeAnnouncement/MakeAnnouncement";
 import AgreementRequests from "../Pages/AgreementRequests/AgreementRequests";
 import ManageCoupons from "../Pages/ManageCoupons/ManageCoupons";
 import AdminProtectedRoutes from "../Routes/AdminProtectedRoutes";
+import MakePayment from "../Pages/MakePayment/MakePayment";
+import PaymentHistory from "../Pages/PaymentHistory/PaymentHistory";
 
 export const router = createBrowserRouter([
   {
@@ -41,23 +43,31 @@ export const router = createBrowserRouter([
     path: "/dashboard",
     element: <DashboardLayout />,
     children: [
-      // {
-      //   index:true,
-      //   element:
-      // },
+      // MEMBER ROUTES
       {
         path: "my-profile",
         element: <MyProfile />,
       },
       {
+        path: "make-payment",
+        element: <MakePayment />,
+      },
+      {
+        path: "payment-history",
+        element: <PaymentHistory />,
+      },
+      // Common Route
+      {
         path: "announcements",
         element: <Announcements />,
       },
+
+      // ADMIN ROUTES
       {
         path: "admin-profile",
         element: (
           <AdminProtectedRoutes>
-            <AdminProfile />{" "}
+            <AdminProfile />
           </AdminProtectedRoutes>
         ),
       },

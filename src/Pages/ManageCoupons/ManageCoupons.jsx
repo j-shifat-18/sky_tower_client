@@ -1,135 +1,107 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useForm } from 'react-hook-form';
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import Swal from 'sweetalert2';
-import useAxiosPublic from '../../Hooks/useAxiosPublic';
-import useAxiosSecure from '../../Hooks/useAxiosSecure';
+import { useEffect, useState } from "react";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
-const ManageCoupons = () => {
+const ManageCoupon = () => {
+  const [coupons, setCoupons] = useState([]);
+  const [expiryUpdates, setExpiryUpdates] = useState({});
   const axiosPublic = useAxiosPublic();
   const axiosSecure = useAxiosSecure();
-  const queryClient = useQueryClient();
-  const { register, handleSubmit, reset } = useForm();
-  const [modalOpen, setModalOpen] = useState(false);
 
-  const { data: coupons = [] } = useQuery({
-    queryKey: ['coupons'],
-    queryFn: async () => {
-      const res = await axiosPublic.get('/coupons');
-      return res.data;
-    },
-  });
+  // Fetch coupons
+  useEffect(() => {
+    const fetchCoupons = async () => {
+      try {
+        const res = await axiosPublic.get("/coupons");
+        console.log("Coupon response:", res.data);
+        setCoupons(res.data);
+      } catch (error) {
+        console.error("Failed to load coupons", error);
+      }
+    };
 
-  const { mutate } = useMutation({
-    mutationFn: async (coupon) => {
-      const res = await axiosSecure.post('/coupons', coupon);
-      return res.data;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries(['coupons']);
-      reset();
-      setModalOpen(false);
-      Swal.fire({ icon: 'success', title: 'Coupon added successfully!' });
-    },
-  });
+    fetchCoupons();
+  }, []);
 
-  const onSubmit = (data) => {
-    mutate(data);
+  // Handle expiry date change
+  const handleDateChange = (id, value) => {
+    setExpiryUpdates((prev) => ({ ...prev, [id]: value }));
+  };
+
+  // Handle update
+  const handleUpdate = async (id) => {
+    const expiryDate = expiryUpdates[id];
+    if (!expiryDate) return alert("Please select a date");
+
+    try {
+      const res = await axiosSecure.patch(`/coupons/${id}`, { expiryDate });
+      if (res.data.modifiedCount > 0) {
+        Swal.fire({
+          icon: "success",
+          title: "Coupon updated successfully!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    } catch (error) {
+      console.error("Failed to update coupon", error);
+      alert("Failed to update coupon");
+    }
   };
 
   return (
-    <div className="p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold">Manage Coupons</h2>
-        <button
-          className="btn btn-primary"
-          onClick={() => setModalOpen(true)}
-        >
-          Add Coupon
-        </button>
+    <div className="p-4">
+      <h2 className="text-2xl font-bold mb-4">Manage Coupons</h2>
+      <div className="overflow-x-auto">
+        <table className="w-full table-auto border-collapse border border-gray-300">
+          <thead className="bg-gray-100">
+            <tr>
+              <th className="border px-4 py-2 text-left">Name</th>
+              <th className="border px-4 py-2 text-left">Code</th>
+              <th className="border px-4 py-2 text-left">Discount</th>
+              <th className="border px-4 py-2 text-left">Expiry Date</th>
+              <th className="border px-4 py-2 text-left">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {coupons.map((coupon) => (
+              <tr key={coupon._id}>
+                <td className="border px-4 py-2">{coupon.title}</td>
+                <td className="border px-4 py-2">{coupon.code}</td>
+                <td className="border px-4 py-2">{coupon.discount}%</td>
+                <td className="border px-4 py-2">
+                  <input
+                    type="date"
+                    defaultValue={coupon.expiryDate?.split("T")[0]}
+                    onChange={(e) =>
+                      handleDateChange(coupon._id, e.target.value)
+                    }
+                    className="border px-2 py-1 rounded"
+                  />
+                </td>
+                <td className="border px-4 py-2">
+                  <button
+                    onClick={() => handleUpdate(coupon._id)}
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded"
+                  >
+                    Update
+                  </button>
+                </td>
+              </tr>
+            ))}
+            {coupons.length === 0 && (
+              <tr>
+                <td colSpan="4" className="text-center py-4">
+                  No coupons found.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {coupons.map((coupon, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-            className="rounded-lg p-5 shadow-lg bg-gradient-to-tr from-indigo-500 to-purple-500 text-white"
-          >
-            <h4 className="text-lg font-semibold mb-1">{coupon.title}</h4>
-            <p className="text-3xl font-bold">{coupon.discount}% OFF</p>
-            <p className="mb-2">{coupon.description}</p>
-            <div className="flex justify-between items-center text-sm mb-3">
-              <span className="bg-white text-indigo-600 px-2 py-1 rounded font-semibold">
-                {coupon.code}
-              </span>
-              <span>Until {coupon.expiryDate}</span>
-            </div>
-            {/* <button className="btn btn-secondary w-full">Claim Offer</button> */}
-          </motion.div>
-        ))}
-      </div>
-
-      {/* Modal */}
-      {modalOpen && (
-        <dialog className="modal modal-open">
-          <div className="modal-box">
-            <h3 className="font-bold text-lg mb-4">Add Coupon</h3>
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-              <input
-                {...register('title')}
-                type="text"
-                placeholder="Title"
-                className="input input-bordered w-full"
-                required
-              />
-              <textarea
-                {...register('description')}
-                placeholder="Description"
-                className="textarea textarea-bordered w-full"
-                required
-              />
-              <input
-                {...register('code')}
-                type="text"
-                placeholder="Coupon Code"
-                className="input input-bordered w-full"
-                required
-              />
-              <input
-                {...register('discount')}
-                type="number"
-                placeholder="Discount (%)"
-                className="input input-bordered w-full"
-                required
-              />
-              <input
-                {...register('expiryDate')}
-                type="date"
-                className="input input-bordered w-full"
-                required
-              />
-              <div className="modal-action">
-                <button
-                  type="button"
-                  className="btn btn-ghost"
-                  onClick={() => setModalOpen(false)}
-                >
-                  Cancel
-                </button>
-                <button type="submit" className="btn btn-primary">
-                  Submit
-                </button>
-              </div>
-            </form>
-          </div>
-        </dialog>
-      )}
     </div>
   );
 };
 
-export default ManageCoupons;
+export default ManageCoupon;

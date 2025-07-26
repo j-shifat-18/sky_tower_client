@@ -18,27 +18,21 @@ const AdminProfile = () => {
   const axiosSecure = useAxiosSecure();
   const axiosPublic = useAxiosPublic();
 
-  const { data: apartmentRes = { apartments: [] } } = useQuery({
-  queryKey: ["apartments"],
-  queryFn: async () => (await axiosPublic.get("/apartments")).data,
-});
+  const { data: allApartments = [] } = useQuery({
+    queryKey: ["all-apartments"],
+    queryFn: async () => (await axiosPublic.get("/apartments/all")).data,
+  });
 
-const apartments = apartmentRes.apartments || [];
+  const totalApartments = allApartments.length;
 
-
-  //   console.log(apartments)
 
   const { data: users = [] } = useQuery({
     queryKey: ["users"],
     queryFn: async () => (await axiosSecure.get("/users")).data,
   });
 
-  const { data: agreements = [] } = useQuery({
-    queryKey: ["agreements"],
-    queryFn: async () => (await axiosSecure.get("/agreements")).data,
-  });
 
-  const totalApartments = apartments.length;
+
   const totalMembers =
     users?.filter((user) => user.role === "member").length || 0;
 
@@ -46,7 +40,7 @@ const apartments = apartmentRes.apartments || [];
     ? (((totalApartments - totalMembers) / totalApartments) * 100).toFixed(1)
     : 0;
 
-  const unavailablePercent = 100-availablePercent;
+  const unavailablePercent = 100 - availablePercent;
 
   return (
     <div className="p-6 space-y-8">

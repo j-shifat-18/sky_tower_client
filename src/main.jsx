@@ -6,6 +6,7 @@ import { RouterProvider } from "react-router";
 import { router } from "./Router/Router.jsx";
 import AuthProvider from "./Providers/AuthProvider.jsx";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import 'leaflet/dist/leaflet.css';
 
 const queryClient = new QueryClient();
 

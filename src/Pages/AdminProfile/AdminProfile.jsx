@@ -37,10 +37,10 @@ const AdminProfile = () => {
     users?.filter((user) => user.role === "member").length || 0;
 
   const availablePercent = totalApartments
-    ? (((totalApartments - totalMembers) / totalApartments) * 100).toFixed(1)
+    ? (((totalApartments - totalMembers) / totalApartments) * 100).toFixed(2)
     : 0;
 
-  const unavailablePercent = 100 - availablePercent;
+  const unavailablePercent = (100 - availablePercent).toFixed(2);
 
   return (
     <div className="p-6 space-y-8">

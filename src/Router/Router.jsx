@@ -16,6 +16,7 @@ import AdminProtectedRoutes from "../Routes/AdminProtectedRoutes";
 import MakePayment from "../Pages/MakePayment/MakePayment";
 import PaymentHistory from "../Pages/PaymentHistory/PaymentHistory";
 import PaymentPage from "../Pages/PaymentPage/PaymentPage";
+import DashboardWelcome from "../Pages/DashboardWelcome/DashboardWelcome";
 
 export const router = createBrowserRouter([
   {
@@ -44,6 +45,10 @@ export const router = createBrowserRouter([
     path: "/dashboard",
     element: <DashboardLayout />,
     children: [
+      {
+        index:true,
+        element:<DashboardWelcome></DashboardWelcome>
+      },
       // MEMBER ROUTES
       {
         path: "my-profile",

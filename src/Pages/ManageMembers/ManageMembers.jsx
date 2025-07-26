@@ -17,7 +17,7 @@ export default function ManageMembers() {
     },
   });
 
-  console.log(members)
+  // console.log(members)
 
   // Mutation to downgrade role
   const { mutateAsync: removeMember } = useMutation({

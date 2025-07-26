@@ -24,7 +24,7 @@ const GoogleLogin = ({ onSuccess }) => {
       const user = result.user;
       // Check if user exists in DB
       const res = await axiosSecure.get(`/users?email=${user.email}`);
-      console.log(res)
+      // console.log(res)
       if (!res.data || (Array.isArray(res.data) && res.data.length === 0)) {
         // User does not exist, add to DB
         await addUserMutation.mutateAsync({

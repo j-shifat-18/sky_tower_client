@@ -70,7 +70,7 @@ const MakePayment = () => {
   };
 
   const onSubmit = (data) => {
-    console.log(data)
+    // console.log(data)
     navigate("/dashboard/payment-checkout", { state: data });
   };
 

@@ -19,6 +19,7 @@ import PaymentPage from "../Pages/PaymentPage/PaymentPage";
 import DashboardWelcome from "../Pages/DashboardWelcome/DashboardWelcome";
 import About from "../Pages/About/About";
 import Contact from "../Pages/Contact/Contact";
+import ApartmentDetails from "../Pages/ApartmentDetails/ApartmentDetails";
 
 export const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ export const router = createBrowserRouter([
       {
         path: "apartments",
         element: <Apartments></Apartments>,
+      },
+      {
+        path: "apartments/:id",
+        element: <ApartmentDetails></ApartmentDetails>,
       },
       {
         path: "about",

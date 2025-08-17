@@ -1,8 +1,9 @@
 // ApartmentCard.jsx
 import { motion } from "framer-motion";
+import { Link } from "react-router";
 
 
-const ApartmentCard = ({ apartment, onAgreement , isApplied }) => {
+const ApartmentCard = ({ apartment  }) => {
   const {
     _id,
     image,
@@ -11,6 +12,8 @@ const ApartmentCard = ({ apartment, onAgreement , isApplied }) => {
     apartmentNo,
     rent
   } = apartment;
+
+
 
   return (
     <motion.div
@@ -30,7 +33,7 @@ const ApartmentCard = ({ apartment, onAgreement , isApplied }) => {
         <p className="text-gray-600">Block: {block}</p>
         <p className="text-gray-600">Rent: {rent} BDT</p>
 
-        <button onClick={()=>onAgreement(apartment)} disabled={isApplied} className="btn btn-outline btn-primary block w-full">Agreement</button>
+        <Link to={`/apartments/${_id}`} className="btn btn-outline btn-block btn-primary">View Details</Link>
       </div>
     </motion.div>
   );

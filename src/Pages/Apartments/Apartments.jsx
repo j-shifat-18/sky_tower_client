@@ -7,15 +7,10 @@ import ApartmentCard from "../../Components/ApartmentCard/ApartmentCard";
 import Pagination from "../../Components/Pagination/Pagination";
 import SearchFilter from "../../Components/SearchFilter/SearchFilter";
 import Loader from "../../Components/Loader/Loader";
-import Swal from "sweetalert2";
-import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const Apartments = () => {
   const axiosPublic = useAxiosPublic();
-  const axiosSecure  = useAxiosSecure();
-  const queryClient = useQueryClient();
-  const { user } = useAuth();
-  const navigate = useNavigate();
+
 
   const [currentPage, setCurrentPage] = useState(1);
   const [minRent, setMinRent] = useState("");
@@ -34,53 +29,9 @@ const Apartments = () => {
     },
   });
 
-  // fetch agreement data
-  const { data: userAgreement } = useQuery({
-    queryKey: ["userAgreement", user?.email],
-    enabled: !!user?.email,
-    queryFn: async () => {
-      const res = await axiosSecure.get(`/agreements?email=${user.email}`);
-      // console.log(res.data)
-      return res.data;
-    },
-  });
+
   // console.log(userAgreement)
 
-  // Handle agreement creation
-  const agreementMutation = useMutation({
-    mutationFn: async (apartment) => {
-      const res = await axiosSecure.post("/agreements", apartment);
-      return res.data;
-    },
-    onSuccess: () => {
-      Swal.fire({
-        icon: "success",
-        title: "Agreement booked!",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-      queryClient.invalidateQueries(["apartments"]);
-    },
-  });
-
-  const handleAgreement = (apt) => {
-    if (!user) {
-      navigate("/login");
-      return;
-    }
-
-    const agreementData = {
-      userName: user.displayName,
-      userEmail: user.email,
-      floor: apt.floor,
-      block: apt.block,
-      apartmentNo: apt.apartmentNo,
-      rent: apt.rent,
-      status: "pending",
-    };
-
-    agreementMutation.mutate(agreementData);
-  };
 
   if (isLoading) return <Loader />;
 
@@ -103,8 +54,6 @@ const Apartments = () => {
             <ApartmentCard
               key={apt._id}
               apartment={apt}
-              isApplied={userAgreement?.length >0 ? true : false}
-              onAgreement={handleAgreement}
             />
           ))
         ) : (

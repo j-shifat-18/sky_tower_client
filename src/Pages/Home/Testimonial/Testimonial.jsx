@@ -122,7 +122,7 @@ function Testimonial() {
 
       {}
       <p className="text-lg text-gray-500 mt-4 text-center max-w-3xl mb-16">
-        Harum quae dolore corrupti aut temporibus pariatur.
+        Hear from our residents and admins who use SkyTower every day. Real experiences, real convenience.
       </p>
 
       {}

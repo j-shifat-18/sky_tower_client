@@ -24,8 +24,8 @@ const SkyTowerLocation = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h2 className="text-4xl font-bold text-primary">Prime Location</h2>
-        <p className="text-gray-500 mt-2">
+        <h2 className="text-3xl md:text-4xl lg:text-5xl  font-bold text-primary">Prime Location</h2>
+        <p className="text-lg text-gray-600 mt-4">
           Located in the heart of downtown, SkyTower offers unparalleled access to the city's best amenities
         </p>
       </motion.div>

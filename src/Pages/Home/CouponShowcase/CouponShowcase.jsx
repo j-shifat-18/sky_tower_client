@@ -27,8 +27,8 @@ const CouponShowcase = () => {
     );
 
   return (
-    <div className="my-12 px-4">
-      <h2 className="text-3xl font-bold text-center">Exclusive Offers</h2>
+    <div className="max-w-7xl mx-auto my-12 px-4">
+      <h2 className="text-3xl font-bold text-center text-primary">Exclusive Offers</h2>
       <p className="text-center text-gray-500 mb-10">
         Take advantage of our limited-time offers and special discounts for
         residents

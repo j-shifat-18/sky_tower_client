@@ -9,7 +9,7 @@ const AboutSkyTower = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <h2 className="text-4xl font-bold text-gray-800 mb-2">About SkyTower</h2>
+        <h2 className="text-4xl font-bold text-primary mb-2">About SkyTower</h2>
         <p className="text-lg text-gray-500">
           A premium residential building that redefines modern living with exceptional amenities<br />
           and unparalleled service

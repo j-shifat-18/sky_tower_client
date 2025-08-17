@@ -4,6 +4,7 @@ import { Autoplay, Pagination } from "swiper/modules";
 import { motion } from "framer-motion";
 import "swiper/css";
 import "swiper/css/pagination";
+import { Link } from "react-router";
 
 const bannerImages = [
   {
@@ -57,13 +58,15 @@ const Banner = () => {
                   >
                     {item.desc}
                   </motion.p>
-                  <motion.button
+                  <Link
+                  to="/apartments"
                     className="btn btn-primary shadow-xl"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
+                    
                   >
                     Explore More
-                  </motion.button>
+                  </Link>
                 </div>
               </div>
             </div>

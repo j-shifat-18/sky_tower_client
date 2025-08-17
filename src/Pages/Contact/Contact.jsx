@@ -1,5 +1,11 @@
 import { motion } from "framer-motion";
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
+import ContactForm from "./ContactForm";
+
+
+// service_khpwwp3
+// template_w2wbh9a
+
 
 const Contact = () => {
   return (
@@ -32,12 +38,12 @@ const Contact = () => {
           {
             icon: <FaPhoneAlt className="text-4xl text-primary mb-3" />,
             title: "Phone",
-            info: ["+880 1234-567890", "+880 9876-543210"],
+            info: ["+880 1612872485", "+880 1794668169"],
           },
           {
             icon: <FaEnvelope className="text-4xl text-primary mb-3" />,
             title: "Email",
-            info: ["info@skytower.com", "support@skytower.com"],
+            info: ["info.jahirulsifat.com", "info.skytower@gmail.com"],
           },
           {
             icon: <FaMapMarkerAlt className="text-4xl text-primary mb-3" />,
@@ -65,7 +71,7 @@ const Contact = () => {
       </section>
 
       {/* Contact Form + Image */}
-      <section className="max-w-6xl mx-auto px-6 py-20 grid md:grid-cols-2 gap-12 items-center">
+      {/* <section className="max-w-6xl mx-auto px-6 py-20 grid md:grid-cols-2 gap-12 items-center">
         <motion.div
           initial={{ opacity: 0, x: -40 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -105,7 +111,9 @@ const Contact = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
         />
-      </section>
+      </section> */}
+
+      <ContactForm></ContactForm>
 
       {/* CTA Section */}
       <section className="bg-primary text-white py-16 text-center ">

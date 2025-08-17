@@ -103,33 +103,38 @@ const ManageCoupon = () => {
       </div>
 
       <div className="overflow-x-auto">
-        <table className="w-full table-auto border-collapse border border-gray-300">
-          <thead className="bg-gray-100">
+        <table className="table table-zebra w-full">
+          {/* head */}
+          <thead className="bg-base-200">
             <tr>
-              <th className="border px-4 py-2">Name</th>
-              <th className="border px-4 py-2">Code</th>
-              <th className="border px-4 py-2">Discount</th>
-              <th className="border px-4 py-2">Expiry Date</th>
-              <th className="border px-4 py-2">Actions</th>
+              <th className="text-left">Name</th>
+              <th className="text-left">Code</th>
+              <th className="text-left">Discount</th>
+              <th className="text-left">Expiry Date</th>
+              <th className="text-left">Actions</th>
             </tr>
           </thead>
           <tbody>
             {coupons.map((coupon) => (
               <tr key={coupon._id}>
-                <td className="border px-4 py-2">{coupon.title}</td>
-                <td className="border px-4 py-2">{coupon.code}</td>
-                <td className="border px-4 py-2">{coupon.discount}%</td>
-                <td className="border px-4 py-2">
+                <td>{coupon.title}</td>
+                <td>
+                  <span className="badge badge-ghost">{coupon.code}</span>
+                </td>
+                <td>
+                  <span className="badge badge-accent">{coupon.discount}%</span>
+                </td>
+                <td>
                   <input
                     type="date"
                     defaultValue={coupon.expiryDate?.split("T")[0]}
                     onChange={(e) =>
                       handleDateChange(coupon._id, e.target.value)
                     }
-                    className="input input-bordered w-full"
+                    className="input input-bordered input-sm w-full"
                   />
                 </td>
-                <td className="border px-4 py-2">
+                <td>
                   <button
                     onClick={() => handleUpdate(coupon._id)}
                     className="btn btn-info btn-sm"

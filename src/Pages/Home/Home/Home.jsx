@@ -6,17 +6,19 @@ import SkyTowerLocation from '../SkyTowerLocation/SkyTowerLocation';
 import Testimonial from '../Testimonial/Testimonial';
 import FAQ from '../FAQ/FAQ';
 import TeamSection from '../TeamSection/TeamSection';
+import Features from '../Features/Features';
 
 const Home = () => {
     return (
         <div>
             <Banner></Banner>
             <AboutSkyTower></AboutSkyTower>
-            <SkyTowerLocation></SkyTowerLocation>
-            <TeamSection></TeamSection>
+            <Features></Features>
             <CouponShowcase></CouponShowcase>
             <Testimonial></Testimonial>
+            <SkyTowerLocation></SkyTowerLocation>
             <FAQ></FAQ>
+            <TeamSection></TeamSection>
         </div>
     );
 };

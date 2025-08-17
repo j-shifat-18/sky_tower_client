@@ -25,7 +25,7 @@ const bannerImages = [
 
 const Banner = () => {
   return (
-    <div className="w-full h-[85vh]">
+    <div className="w-full h-[70vh] md:h-[100vh]">
       <Swiper
         modules={[Autoplay, Pagination]}
         autoplay={{ delay: 4000, disableOnInteraction: false }}

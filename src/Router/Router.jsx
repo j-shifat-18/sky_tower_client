@@ -20,11 +20,13 @@ import DashboardWelcome from "../Pages/DashboardWelcome/DashboardWelcome";
 import About from "../Pages/About/About";
 import Contact from "../Pages/Contact/Contact";
 import ApartmentDetails from "../Pages/ApartmentDetails/ApartmentDetails";
+import ErroPage from "../Components/ErroPage/ErroPage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout></RootLayout>,
+    errorElement: <ErroPage></ErroPage>,
     children: [
       {
         index: true,
@@ -44,25 +46,28 @@ export const router = createBrowserRouter([
       },
       {
         path: "contact",
-        element:<Contact></Contact>,
+        element: <Contact></Contact>,
       },
     ],
   },
   {
     path: "/login",
     element: <Login></Login>,
+    errorElement: <ErroPage></ErroPage>,
   },
   {
     path: "/register",
     element: <Register></Register>,
+    errorElement: <ErroPage></ErroPage>,
   },
   {
     path: "/dashboard",
     element: <DashboardLayout />,
+    errorElement: <ErroPage></ErroPage>,
     children: [
       {
-        index:true,
-        element:<DashboardWelcome></DashboardWelcome>
+        index: true,
+        element: <DashboardWelcome></DashboardWelcome>,
       },
       // MEMBER ROUTES
       {
@@ -78,8 +83,8 @@ export const router = createBrowserRouter([
         element: <PaymentHistory />,
       },
       {
-        path:"payment-checkout",
-        element:<PaymentPage></PaymentPage>
+        path: "payment-checkout",
+        element: <PaymentPage></PaymentPage>,
       },
       // Common Route
       {

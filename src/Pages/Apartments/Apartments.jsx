@@ -1,37 +1,33 @@
 import React, { useState } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
-import useAuth from "../../Hooks/useAuth";
-import { useNavigate } from "react-router";
 import ApartmentCard from "../../Components/ApartmentCard/ApartmentCard";
 import Pagination from "../../Components/Pagination/Pagination";
 import SearchFilter from "../../Components/SearchFilter/SearchFilter";
 import Loader from "../../Components/Loader/Loader";
+import SortByRent from "../../Components/SortByRent/SortByRent";
 
 const Apartments = () => {
   const axiosPublic = useAxiosPublic();
-
-
   const [currentPage, setCurrentPage] = useState(1);
   const [minRent, setMinRent] = useState("");
   const [maxRent, setMaxRent] = useState("");
+  const [sortOrder, setSortOrder] = useState("");
 
   // Fetch apartments with filters and pagination
   const { data, isLoading } = useQuery({
-    queryKey: ["apartments", currentPage, minRent, maxRent],
+    queryKey: ["apartments", currentPage, minRent, maxRent, sortOrder],
     queryFn: async () => {
       const res = await axiosPublic.get(
         `/apartments?page=${currentPage}&minRent=${minRent || 0}&maxRent=${
           maxRent || 999999
-        }`
+        }&sortOrder=${sortOrder}`
       );
       return res.data;
     },
   });
 
-
   // console.log(userAgreement)
-
 
   if (isLoading) return <Loader />;
 
@@ -39,22 +35,29 @@ const Apartments = () => {
 
   return (
     <div className="max-w-7xl mt-16 mx-auto p-4">
-      <h2 className="text-4xl font-bold mb-4 md:mb-8 text-center text-primary">Available Apartments</h2>
+      <h2 className="text-4xl font-bold mb-4 md:mb-8 text-center text-primary">
+        Available Apartments
+      </h2>
 
-      <SearchFilter
-        minRent={minRent}
-        maxRent={maxRent}
-        setMinRent={setMinRent}
-        setMaxRent={setMaxRent}
-      />
+      <div className="flex justify-between items-center">
+        <SearchFilter
+          minRent={minRent}
+          maxRent={maxRent}
+          setMinRent={setMinRent}
+          setMaxRent={setMaxRent}
+        />
+
+        <SortByRent
+          sortOrder={sortOrder}
+          setSortOrder={setSortOrder}
+          setCurrentPage={setCurrentPage}
+        ></SortByRent>
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">
         {apartments.length > 0 ? (
           apartments.map((apt) => (
-            <ApartmentCard
-              key={apt._id}
-              apartment={apt}
-            />
+            <ApartmentCard key={apt._id} apartment={apt} />
           ))
         ) : (
           <p className="col-span-full text-center text-gray-500">
